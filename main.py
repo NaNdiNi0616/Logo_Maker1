@@ -1,24 +1,21 @@
-import http.server
-import socketserver
+import streamlit as st
+import os
 
-PORT = 8080
-DIRECTORY = "."
+# Function to read HTML content
+def load_html(file_path):
+    with open(file_path, "r") as file:
+        return file.read()
 
-class CustomHandler(http.server.SimpleHTTPRequestHandler):
-    def __init__(self, *args, **kwargs):
-        super().__init__(*args, directory=DIRECTORY, **kwargs)
+# Load the HTML content from the file
+html_content = load_html("homepage.html")
 
-def run(server_class=http.server.HTTPServer, handler_class=CustomHandler):
-    server_address = ('', PORT)
-    httpd = server_class(server_address, handler_class)
-    print(f"Serving HTTP on port {PORT}...")
-    try:
-        httpd.serve_forever()
-    except PermissionError as e:
-        print(f"PermissionError: {e}. Try running the script as an administrator or using a different port.")
-    except Exception as e:
-        print(f"An unexpected error occurred: {e}")
+# Streamlit app
+def main():
+    st.title("Brandmark Logo Maker")
+    
+    # Display the HTML content
+    st.components.v1.html(html_content, height=1000, scrolling=True)
 
 if __name__ == "__main__":
-    run()
+    main()
 
